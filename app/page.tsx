@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Menu } from "lucide-react";
 import { FiArrowUpRight } from "react-icons/fi";
 import FeaturedWork from "@/components/FeaturedWork";
-
+import Services from "@/components/Services";
 // --- Reusable Stat Card Component ---
 type StatCardProps = {
   label: string;
@@ -29,7 +29,7 @@ const StatCard = ({ label, value, valueOnTop = false }: StatCardProps) => {
   );
 
   return (
-    <div className={`${cardBg} p-5 rounded-2xl flex flex-col h-full justify-between gap-6 border border-neutral-900`}>
+    <div className={`${cardBg} p-5 rounded-2xl flex  flex-col h-full justify-between gap-6 border border-neutral-900`}>
       {valueOnTop ? (
         <>
           <ValueText />
@@ -156,6 +156,8 @@ export default function Home() {
 
         </div>
       </div>
+      <div>
+      </div>
 
       {/* =======================
           ABOUT + STATS
@@ -195,6 +197,9 @@ export default function Home() {
 
     </main>
     <FeaturedWork/>
+
+            <Services />
+
     </>
   );
 }
