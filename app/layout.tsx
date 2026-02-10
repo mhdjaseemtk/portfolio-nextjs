@@ -11,8 +11,8 @@ const oswald = Oswald({
 });
 
 export const metadata = {
-  title: "Innovate For Design",
-  description: "Portfolio Hero Section",
+  title: "JASEEM",
+  description: "Digital Designer & Web Developer",
 };
 
 export default function RootLayout({ children }: { readonly children: React.ReactNode }) {
