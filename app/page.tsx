@@ -91,7 +91,7 @@ export default function Home() {
           NAVBAR
       ======================== */}
       <nav className="relative z-50 flex justify-between items-center px-6 py-8 md:px-16 max-w-[1920px] mx-auto">
-        <div className="text-xl font-bold tracking-tighter text-white">Jaseem</div>
+        <div className="text-xl font-bold tracking-tighter text-white">Jaseem T K</div>
 
         <div className="hidden md:flex gap-10 mr-30 text-[14px] font-bold tracking-[0.2em] text-gray-400 uppercase">
           <a href="#home" className="hover:text-white transition-colors">HOME</a>
