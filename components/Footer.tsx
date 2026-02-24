@@ -9,7 +9,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 const Footer = () => {
     return (
-        <footer className="w-full bg-black text-white pt-20 pb-8 px-4 md:px-12 font-inter">
+        <footer className="w-full bg-black text-white pt-20 pb-8 px-4 sm:px-8 md:px-12 font-inter">
             {/* Top Section */}
             <div className="flex flex-col items-center justify-center mb-24 text-center">
                 <p className="text-gray-400 mb-4 text-lg">Let&apos;s Get Started</p>
@@ -21,15 +21,14 @@ const Footer = () => {
             <div className="border-t border-gray-800 my-12"></div>
 
             {/* Middle Section */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20">
                 {/* Left Column: Email Capture */}
                 <div className="md:col-span-5 pr-0 md:pr-12">
                     <Link href="/" className="inline-block mb-6">
                         <span className="text-2xl font-bold">ellion</span>
                     </Link>
                     <p className="text-gray-400 mb-8 max-w-md text-sm leading-relaxed">
-                        My approach is rooted in research, where I dig deep into user
-                        behaviors and feedback to inform
+                        My approach is rooted in clean code and scalable architecture, where I dig deep into technical requirements to deliver robust solutions.
                     </p>
                     <div className="flex w-full max-w-md">
                         <input

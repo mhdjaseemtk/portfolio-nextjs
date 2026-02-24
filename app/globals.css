@@ -18,26 +18,14 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  /* overflow-x: hidden; */
+
 }
 
 body {
   background: var(--color-just-black);
 }
 
-svg {
-  position: fixed;
-  left: -50%;
-  top: -40%;
-  /*   left: 0;
-  top: 0; */
-  width: 250vw;
-  opacity: 0
-}
-
-svg * {
-  will-change: transform;
-}
+/* SVG animation block removed to prevent 250vw overflow */
 
 .container {
   display: flex;
@@ -112,10 +100,6 @@ h1 {
 
 
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
@@ -155,5 +139,5 @@ body {
 }
 
 .jaseem {
-  /* overflow: hidden !important; */
+  overflow-x: hidden;
 }
