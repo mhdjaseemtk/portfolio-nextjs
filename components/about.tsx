@@ -20,7 +20,7 @@ export default function AboutPage() {
 
         {/* Title */}
         <h1 className="text-3xl font-bold mb-4">
-          Hi, I'm <span className="text-blue-600">Your Name</span> 👋
+          Hi, I'm <span className="text-blue-600">Jaseem T K</span> 👋
         </h1>
 
         {/* Description */}

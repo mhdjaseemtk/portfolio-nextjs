@@ -161,9 +161,7 @@ const Footer = () => {
 
             {/* Bottom Section */}
             <div className="flex flex-col md:flex-row items-center justify-center text-gray-500 text-xs py-4 text-center">
-                <p>
-                    &copy; Copyright 2024 | Design By <span className="text-white">HR Rumen</span> | Powered By <span className="text-white">Dribbble</span>
-                </p>
+              
             </div>
         </footer>
     );
