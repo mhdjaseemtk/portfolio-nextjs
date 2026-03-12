@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
+
 const FeaturedWork = () => {
   return (
     <section className="bg-black min-h-screen p-4 sm:p-8 md:p-12 font-sans text-white">
@@ -18,7 +19,7 @@ const FeaturedWork = () => {
           title="HERO PRODUCTS"
           category="Full-Stack E-commerce App"
           year="2022"
-          imgSrc="https://images.unsplash.com/photo-1556656793-0275bada8d74?q=80&w=1920&auto=format&fit=crop"
+          imgSrc="/image copy.png"
         // Note: Replace with your "Hands" image
         />
 

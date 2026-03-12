@@ -160,9 +160,7 @@ const Footer = () => {
             <div className="border-t border-gray-800 my-8"></div>
 
             {/* Bottom Section */}
-            <div className="flex flex-col md:flex-row items-center justify-center text-gray-500 text-xs py-4 text-center">
-              
-            </div>
+            
         </footer>
     );
 };

@@ -38,7 +38,7 @@ const ServicesSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
         {/* Left Column: Header & Description */}
-        <div className="lg:col-span-5 flex flex-col justify-start">
+        <div className="lg:col-span-5 flex  flex-col justify-start">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight mb-8">
             Service Expertise
           </h2>
