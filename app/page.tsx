@@ -115,7 +115,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-12  gap-4">
 
             {/* LEFT TEXT */}
-            <div className="md:col-span-8 mt-32 md:mt-60 flex m-5 flex-col justify-center items-start">
+            <div className="md:col-span-8 mt-32 md:mt-20 0 flex m-5 flex-col ml-24  justify-center items-start">
               <h1 className="font-oswald gap-3 font-bold leading-[0.8] tracking-tighter uppercase text-white flex flex-col items-start w-full break-words">
                 <span className="text-5xl sm:text-9xl md:text-[120px] lg:text-[150px]">Build</span>
                 <span className="text-amber-500 text-5xl sm:text-9xl md:text-[120px] lg:text-[150px]">Scale</span>
@@ -144,10 +144,10 @@ export default function Home() {
               <div className="relative w-24 h-24 flex items-center justify-center">
                 <svg className="absolute w-full h-full animate-spin-slow" viewBox="0 0 100 100">
                   <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
-                  <text fill="white" fontSize="11" fontWeight="bold" letterSpacing="2">
-                    <textPath href="#circlePath" startOffset="0%">a
-                      EST • 2023 • NYC • EST • 2023 • NYC •
-                    </textPath>
+                  <text fill="white" fontSize="13" fontWeight="bold" letterSpacing="2">
+                <textPath href="#circlePath">
+FULL STACK • DEVELOPER •
+</textPath>
                   </text>
                 </svg>
               </div>
@@ -186,9 +186,9 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <StatCard label="YEARS EXPERIENCES" value="06+" />
-            <StatCard label="SUCCESSFUL PROJECTS" value="120+" valueOnTop />
-            <StatCard label="TOTAL CLIENT" value="900+" valueOnTop />
+            <StatCard label="MONTHS EXPERIENCES" value="6+" />
+            <StatCard label="SUCCESSFUL PROJECTS" value="6+" valueOnTop />
+            <StatCard label="TOTAL CLIENT" value="2+" valueOnTop />
             <StatCard label="CLIENT REVENUE" value="+72%" valueOnTop />
           </div>
 
