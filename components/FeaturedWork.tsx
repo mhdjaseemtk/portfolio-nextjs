@@ -5,26 +5,26 @@ import { ArrowUpRight, X, Github, ExternalLink } from 'lucide-react';
 
 const projects = [
    {
-    title: "Healix Healthcare Platform",
+    title: "Healix",
     image: "/Work2.png",
-    description: "Full stack healthcare SaaS platform",
-    tech: "React, Node.js, MongoDB",
+    description: " healthcare products SaaS platform",
+    tech: "Nextjs, Node.js, MongoDB,DynamoDB,Redis,rabbit mq,elasticsearch",
     live: "http://43.205.231.18",
     github: "https://github.com/mhdjaseemtk/healix"
   },
   {
-    title: "Psydraft Frontend",
+    title: "Psydraft ",
     image: "images/psydraft.png",
-    description: "Mental health platform frontend",
+    description: "psychology doctor consultation platform",
     tech: "Next.js, Tailwind, Node.js",
     live: "https://psydraft-frontend.vercel.app",
     github: "https://github.com/mhdjaseemtk/psydraft"
   },
  
   {
-    title: "Apple Clone MERN",
+    title: "Apple ",
     image: "/apple.png",
-    description: "Apple website clone using MERN stack",
+    description: "Apple products clone E-commerce",
     tech: "React, Node.js, MongoDB",
     live: "https://apple-clone-mern.vercel.app",
     github: "https://github.com/mhdjaseemtk/apple-clone-mern"
@@ -38,6 +38,59 @@ const projects = [
     github: "https://github.com/mhdjaseemtk/learning-platform"
   }
 ];
+
+
+const fullprojects = [
+  {
+    title: "Psydraft ",
+    image: "images/psydraft.png",
+    description: "psychology doctor consultation platform",
+    tech: "Next.js, Tailwind, Node.js",
+    live: "https://psydraft-frontend.vercel.app",
+    github: "https://github.com/mhdjaseemtk/psydraft"
+  },
+
+  {
+    title: "Apple",
+    image: "/apple.png",
+    description: "Apple products selling E-commerce",
+    tech: "React, Node.js, MongoDB",
+    live: "https://apple-clone-mern.vercel.app",
+    github: "https://github.com/mhdjaseemtk/apple-clone-mern"
+  },
+  {
+    title: "Learning Platform",
+    image: "/Work1.png",
+    description: "Online learning platform",
+    tech: "Next.js, Node.js, MongoDB",
+    live: "https://learning-platform-beryl-iota.vercel.app",
+    github: "https://github.com/mhdjaseemtk/learning-platform"
+  },
+  {
+    title: "Admin Innovation ",
+    image: "images/adam.png",
+    description: "Admin dashboard UI with React",
+    tech: "React, Tailwind CSS",
+    live: "https://admin-innovation-website-react.vercel.app",
+    github: "https://github.com/mhdjaseemtk/admin-innovation-website-react"
+  },
+  {
+    title: "Healix ",
+    image: "images/healix.png",
+    description: " E-commerce platform",
+    tech: "Nextjs, Node.js, MongoDB,DynamoDB,Redis,rabbit mq,elasticsearch",
+    live: "http://43.205.231.18",
+    github: "https://github.com/mhdjaseemtk/healix"
+  },
+  {
+    title: "Branch Furniture",
+    image: "images/branch.png",
+    description: "Modern furniture landing page UI",
+    tech: "HTML, Tailwind CSS",
+    live: "https://mhdjaseemtk.github.io/furniture-landing-page-tailwind/",
+    github: "https://github.com/mhdjaseemtk/furniture-landing-page-tailwind"
+  }
+]
 
 const FeaturedWork = () => {
 
@@ -148,7 +201,7 @@ const FeaturedWork = () => {
 
             <div className="overflow-y-auto p-4 space-y-3">
 
-              {projects.map((project,i)=>(
+              {fullprojects.map((project,i)=>(
                 <div
                   key={i}
                   className="flex items-center gap-4 bg-zinc-900 hover:bg-zinc-800 rounded-2xl p-4"
