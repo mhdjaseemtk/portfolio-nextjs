@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FaInstagram, FaDribbble, FaLinkedin, FaBehance, FaGithub } from "react-icons/fa";
+import { FaInstagram, FaDribbble, FaLinkedin, FaGithub } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -25,9 +26,9 @@ const Footer = () => {
   const socials = [
     { icon: <FaGithub className="text-xl" />, label: "GitHub", href: "https://github.com/mhdjaseemtk" },
     { icon: <FaLinkedin className="text-xl" />, label: "LinkedIn", href: "https://www.linkedin.com/in/jaseemtk/" },
-    { icon: <FaInstagram className="text-xl" />, label: "Instagram", href: "#" },
-    { icon: <FaDribbble className="text-xl" />, label: "Dribbble", href: "#" },
-    { icon: <FaBehance className="text-xl" />, label: "Behance", href: "#" },
+    { icon: <FaInstagram className="text-xl" />, label: "Instagram", href: "https://www.instagram.com/mhdjaseemtk/" },
+    { icon: <FaDribbble className="text-xl" />, label: "Dribbble", href: "https://dribbble.com/mhdjaseemtk" },
+    { icon: <FaXTwitter className="text-xl" />, label: "X", href: "https://x.com/mhdjaseemtk" },
   ];
 
   return (
