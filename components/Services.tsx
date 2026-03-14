@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import Testimonial from './Testimonial';
+import { motion } from 'framer-motion';
 
 const ServicesSection = () => {
-  // We default to index 1 (Branding) to match the screenshot exactly
   const [activeIndex, setActiveIndex] = useState(1);
 
   const services = [
@@ -27,18 +27,37 @@ const ServicesSection = () => {
     }
   ];
 
+  const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToWork = () => {
+    const el = document.getElementById("work");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-black text-white p-4 sm:p-8 md:p-16 font-sans flex flex-col justify-between relative">
-
-      {/* Top Section Label */}
-      <div className="mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-8"
+      >
         <span className="text-gray-400 text-sm uppercase tracking-widest">(SERVICES)</span>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-
-        {/* Left Column: Header & Description */}
-        <div className="lg:col-span-5 flex  flex-col justify-start">
+        {/* Left Column */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="lg:col-span-5 flex flex-col justify-start"
+        >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight mb-8">
             Service Expertise
           </h2>
@@ -47,69 +66,86 @@ const ServicesSection = () => {
             Combining deep technical knowledge with best practices to deliver robust software solutions. My expertise spans frontend engineering, backend architecture, and full stack development.
           </p>
 
-          {/* Call to Action Button Group */}
           <div className="flex items-center gap-2 mt-auto">
-            <button className="bg-white text-black text-sm font-bold uppercase py-4 px-8 tracking-wider hover:bg-gray-200 transition-colors">
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={scrollToWork}
+              className="bg-white text-black text-sm font-bold uppercase py-4 px-8 tracking-wider hover:bg-amber-500 hover:text-white transition-all duration-300"
+            >
               See All Works
-            </button>
-            <button className="bg-orange-500 text-black p-4 hover:bg-orange-600 transition-colors">
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={scrollToWork}
+              className="bg-orange-500 text-black p-4 hover:bg-amber-400 transition-colors"
+            >
               <ArrowUpRight size={20} />
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Service List */}
-        <div className="lg:col-span-7 flex flex-col justify-center">
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+          className="lg:col-span-7 flex flex-col justify-center"
+        >
           <div className="flex flex-col">
             {services.map((service, index) => {
               const isActive = activeIndex === index;
-
               return (
-                <div
+                <motion.div
                   key={index}
                   onMouseEnter={() => setActiveIndex(index)}
+                  layout
                   className={`
                     relative group border-b border-gray-800 transition-all duration-300 ease-in-out cursor-pointer
                     ${isActive ? 'bg-orange-500 border-transparent py-8 px-6 rounded-lg' : 'bg-transparent py-8 px-0'}
                   `}
                 >
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-
-                    {/* Text Content */}
                     <div className="max-w-md">
-                      <h3 className={`text-xl md:text-2xl font-bold uppercase mb-2 ${isActive ? 'text-white' : 'text-white'}`}>
+                      <h3 className="text-xl md:text-2xl font-bold uppercase mb-2 text-white">
                         {service.title}
                       </h3>
                       <p className={`text-sm leading-relaxed ${isActive ? 'text-white/90' : 'text-gray-500'}`}>
                         {service.description}
                       </p>
                     </div>
-
-                    {/* Action Button (Changes based on active state) */}
                     <div>
                       {isActive ? (
-                        <button className="bg-white text-black flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-sm transition-transform transform translate-x-0">
+                        <motion.button
+                          whileHover={{ scale: 1.04 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={scrollToContact}
+                          className="bg-white text-black flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-sm"
+                        >
                           Discover <ArrowUpRight size={16} />
-                        </button>
+                        </motion.button>
                       ) : (
-                        <button className="flex items-center gap-2 px-6 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider bg-[#1a1a1a] border border-gray-800 hover:border-gray-600 transition-colors">
+                        <button
+                          onClick={scrollToContact}
+                          className="flex items-center gap-2 px-6 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider bg-[#1a1a1a] border border-gray-800 hover:border-amber-500 hover:text-amber-500 transition-colors"
+                        >
                           Discover <ArrowRight size={16} />
                         </button>
                       )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Testimonials Section */}
       <div className="mt-20">
         <Testimonial />
       </div>
-
     </div>
   );
 };
