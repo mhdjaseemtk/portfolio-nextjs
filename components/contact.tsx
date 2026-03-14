@@ -16,7 +16,7 @@ export default function ContactPage() {
           {/* Name */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              Your Name
+              Jaseem T K
             </label>
             <input
               type="text"
