@@ -16,7 +16,7 @@ export default function ContactPage() {
           {/* Name */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              Your Name
+              Jaseem T K
             </label>
             <input
               type="text"
@@ -63,7 +63,7 @@ export default function ContactPage() {
         <div className="mt-8 text-center text-gray-600">
           Or email me directly at:
           <p className="text-blue-600 font-medium mt-2">
-            yourname@email.com
+            mhdjaseemtk@email.com
           </p>
         </div>
 
