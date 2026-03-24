@@ -1,38 +1,28 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, Plus, X, Upload, Star, User } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Star,
+  Upload,
+  User,
+  X,
+} from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+
 import ansab from "../public/ansab.png";
 
 type Testimonial = {
-  id: number;
+  id: string;
   text: string;
   author: string;
   role: string;
-  avatar: string | typeof ansab;
-  rating?: number;
+  avatar: string | null;
+  rating: number;
 };
-
-const initialTestimonialsData: Testimonial[] = [
-  {
-    id: 1,
-    text: "Jaseem completely transformed our internal dashboard. His ability to architect a scalable backend while delivering a flawless, intuitive React frontend is remarkably rare. He delivered the project ahead of schedule and the code quality was exceptional.",
-    author: "Sarah Jenkins",
-    role: "VP of Engineering at TechCorp",
-    avatar: ansab,
-    rating: 5,
-  },
-  {
-    id: 2,
-    text: "Working with Jaseem was an absolute pleasure. He took our rough concept and built a secure, high-performing full-stack SaaS platform from the ground up. His deep understanding of modern web architecture sets him apart from other developers.",
-    author: "Marcus Aurelius",
-    role: "Founder at NovaStart Labs",
-    avatar: ansab,
-    rating: 5,
-  },
-];
 
 const StarRating = ({
   value,
@@ -52,10 +42,8 @@ const StarRating = ({
         }`}
       >
         <Star
-          className={`w-5 h-5 ${
-            star <= value
-              ? "fill-yellow-400 text-yellow-400"
-              : "text-gray-600"
+          className={`h-5 w-5 ${
+            star <= value ? "fill-yellow-400 text-yellow-400" : "text-gray-600"
           }`}
         />
       </button>
@@ -64,8 +52,7 @@ const StarRating = ({
 );
 
 const Testimonial = () => {
-  const [testimonials, setTestimonials] =
-    useState<Testimonial[]>(initialTestimonialsData);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [showForm, setShowForm] = useState(false);
@@ -74,14 +61,45 @@ const Testimonial = () => {
   const [form, setForm] = useState({ author: "", role: "", text: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        setLoading(true);
+        setLoadError("");
+
+        const response = await fetch("/api/reviews", { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error("Unable to load reviews.");
+        }
+
+        const data: Testimonial[] = await response.json();
+        setTestimonials(data);
+        setActiveIndex(0);
+      } catch (error) {
+        console.error(error);
+        setLoadError("MongoDB reviews could not be loaded right now.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReviews();
+  }, []);
+
   const nextTestimonial = () => {
+    if (testimonials.length <= 1) return;
     setDirection(1);
     setActiveIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevTestimonial = () => {
+    if (testimonials.length <= 1) return;
     setDirection(-1);
     setActiveIndex(
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
@@ -91,13 +109,13 @@ const Testimonial = () => {
   const current = testimonials[activeIndex];
 
   const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 60 : -60,
+    enter: (dir: number) => ({
+      x: dir > 0 ? 60 : -60,
       opacity: 0,
     }),
     center: { x: 0, opacity: 1 },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 60 : -60,
+    exit: (dir: number) => ({
+      x: dir < 0 ? 60 : -60,
       opacity: 0,
     }),
   };
@@ -105,6 +123,7 @@ const Testimonial = () => {
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (ev) => setPhotoPreview(ev.target?.result as string);
     reader.readAsDataURL(file);
@@ -112,38 +131,62 @@ const Testimonial = () => {
 
   const validate = () => {
     const errs: Record<string, string> = {};
+
     if (!form.author.trim()) errs.author = "Name is required.";
     if (!form.role.trim()) errs.role = "Role / Company is required.";
-    if (form.text.trim().length < 20)
+    if (form.text.trim().length < 20) {
       errs.text = "Review must be at least 20 characters.";
+    }
+
     return errs;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const errs = validate();
     if (Object.keys(errs).length) {
       setErrors(errs);
       return;
     }
-    const newEntry: Testimonial = {
-      id: Date.now(),
-      text: form.text.trim(),
-      author: form.author.trim(),
-      role: form.role.trim(),
-      avatar: photoPreview || ansab,
-      rating,
-    };
-    const updated = [...testimonials, newEntry];
-    setTestimonials(updated);
-    setActiveIndex(updated.length - 1);
-    setDirection(1);
-    setShowForm(false);
-    setSubmitted(true);
-    setForm({ author: "", role: "", text: "" });
-    setPhotoPreview(null);
-    setRating(5);
-    setErrors({});
-    setTimeout(() => setSubmitted(false), 3000);
+
+    try {
+      setSaving(true);
+
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          author: form.author.trim(),
+          role: form.role.trim(),
+          text: form.text.trim(),
+          avatar: photoPreview,
+          rating,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to save review.");
+      }
+
+      const newEntry: Testimonial = await response.json();
+      setTestimonials((prev) => [newEntry, ...prev]);
+      setActiveIndex(0);
+      setDirection(-1);
+      setShowForm(false);
+      setSubmitted(true);
+      setForm({ author: "", role: "", text: "" });
+      setPhotoPreview(null);
+      setRating(5);
+      setErrors({});
+      setLoadError("");
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (error) {
+      console.error(error);
+      setErrors({ submit: "Review could not be saved to MongoDB." });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleClose = () => {
@@ -155,93 +198,100 @@ const Testimonial = () => {
   };
 
   return (
-    <div className="w-full bg-black text-white py-4 px-6 flex flex-col items-center justify-center">
-      <div className="max-w-6xl w-full relative flex flex-col items-center">
-
-        {/* Left Arrow */}
+    <div className="flex w-full flex-col items-center justify-center bg-black px-6 py-4 text-white">
+      <div className="relative flex w-full max-w-6xl flex-col items-center">
         <button
           onClick={prevTestimonial}
-          className="absolute left-0 lg:-left-20 top-1/2 -translate-y-1/2 bg-[#1a1a1a] hover:bg-[#2a2a2a] p-4 rounded-md transition hidden md:block"
+          className="absolute left-0 top-1/2 hidden -translate-y-1/2 rounded-md bg-[#1a1a1a] p-4 transition hover:bg-[#2a2a2a] md:block lg:-left-20"
         >
-          <ChevronLeft className="w-6 h-6 text-gray-400" />
+          <ChevronLeft className="h-6 w-6 text-gray-400" />
         </button>
 
-        {/* Right Arrow */}
         <button
           onClick={nextTestimonial}
-          className="absolute right-0 lg:-right-20 top-1/2 -translate-y-1/2 bg-[#1a1a1a] hover:bg-[#2a2a2a] p-4 rounded-md transition hidden md:block"
+          className="absolute right-0 top-1/2 hidden -translate-y-1/2 rounded-md bg-[#1a1a1a] p-4 transition hover:bg-[#2a2a2a] md:block lg:-right-20"
         >
-          <ChevronRight className="w-6 h-6 text-gray-400" />
+          <ChevronRight className="h-6 w-6 text-gray-400" />
         </button>
 
-        <div className="relative w-full flex flex-col items-center justify-center min-h-[450px] overflow-hidden">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={activeIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-              className="absolute flex flex-col items-center text-center"
-            >
-              {/* Profile Photo */}
-              <div className="relative w-28 h-28 mb-6 mt-32 rounded-full overflow-hidden border-4 border-gray-700 shadow-lg">
-                {typeof current.avatar === "string" ? (
-                  <img
-                    src={current.avatar}
-                    alt={current.author}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <Image
-                    src={current.avatar}
-                    alt={current.author}
-                    fill
-                    className="object-cover"
-                  />
-                )}
-              </div>
+        <div className="relative flex min-h-[450px] w-full flex-col items-center justify-center overflow-hidden">
+          {loading ? (
+            <div className="flex min-h-[450px] items-center justify-center text-gray-500">
+              Loading reviews...
+            </div>
+          ) : loadError ? (
+            <div className="flex min-h-[450px] max-w-xl flex-col items-center justify-center gap-3 text-center">
+              <p className="text-base text-red-400">{loadError}</p>
+              <p className="text-sm text-gray-500">
+                Add `MONGODB_URI` to load and save reviews from your database.
+              </p>
+            </div>
+          ) : current ? (
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={current.id}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                }}
+                className="absolute flex flex-col items-center text-center"
+              >
+                <div className="relative mb-6 mt-32 h-28 w-28 overflow-hidden rounded-full border-4 border-gray-700 shadow-lg">
+                  {current.avatar ? (
+                    <img
+                      src={current.avatar}
+                      alt={current.author}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={ansab}
+                      alt={current.author}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                </div>
 
-              {/* Star Rating */}
-              {current.rating && (
                 <div className="mb-6">
                   <StarRating value={current.rating} />
                 </div>
-              )}
 
-              {/* Testimonial Text */}
-              <p className="text-lg md:text-2xl lg:text-4xl leading-[1.4] text-gray-200 font-light mb-12 max-w-4xl">
-                {current.text}
+                <p className="mb-12 max-w-4xl text-lg font-light leading-[1.4] text-gray-200 md:text-2xl lg:text-4xl">
+                  {current.text}
+                </p>
+
+                <div className="mb-6 opacity-80">
+                  <svg width="40" height="30" viewBox="0 0 40 30" fill="none">
+                    <path
+                      d="M14.5 30H0L5 0H19.5L14.5 30ZM35 30H20.5L25.5 0H40L35 30Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-semibold">{current.author}</h4>
+                  <p className="text-sm text-gray-500">{current.role}</p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <div className="flex min-h-[450px] max-w-xl flex-col items-center justify-center gap-3 text-center">
+              <p className="text-lg text-white">No reviews yet in MongoDB.</p>
+              <p className="text-sm text-gray-500">
+                Use the form below to add the first one, including an image.
               </p>
-
-              {/* Quote Icon */}
-              <div className="mb-6 opacity-80">
-                <svg width="40" height="30" viewBox="0 0 40 30" fill="none">
-                  <path
-                    d="M14.5 30H0L5 0H19.5L14.5 30ZM35 30H20.5L25.5 0H40L35 30Z"
-                    fill="white"
-                  />
-                </svg>
-              </div>
-
-              {/* Author */}
-              <div>
-                <h4 className="text-lg font-semibold">{current.author}</h4>
-                <p className="text-gray-500 text-sm">{current.role}</p>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          )}
         </div>
 
-        {/* Dots + Mobile Arrows + Add Button */}
-        <div className="flex flex-col items-center gap-4 mt-10 w-full">
-
-          {/* Dot indicators */}
+        <div className="mt-10 flex w-full flex-col items-center gap-4">
           <div className="flex gap-2">
             {testimonials.map((_, i) => (
               <button
@@ -251,66 +301,61 @@ const Testimonial = () => {
                   setActiveIndex(i);
                 }}
                 className={`h-2 rounded-full transition-all ${
-                  i === activeIndex ? "bg-white w-6" : "bg-gray-600 w-2"
+                  i === activeIndex ? "w-6 bg-white" : "w-2 bg-gray-600"
                 }`}
               />
             ))}
           </div>
 
-          <div className="flex md:hidden gap-4">
+          <div className="flex gap-4 md:hidden">
             <button
               onClick={prevTestimonial}
-              className="bg-[#1a1a1a] hover:bg-[#2a2a2a] p-3 rounded-md"
+              className="rounded-md bg-[#1a1a1a] p-3 hover:bg-[#2a2a2a]"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-400" />
+              <ChevronLeft className="h-5 w-5 text-gray-400" />
             </button>
             <button
               onClick={nextTestimonial}
-              className="bg-[#1a1a1a] hover:bg-[#2a2a2a] p-3 rounded-md"
+              className="rounded-md bg-[#1a1a1a] p-3 hover:bg-[#2a2a2a]"
             >
-              <ChevronRight className="w-5 h-5 text-gray-400" />
+              <ChevronRight className="h-5 w-5 text-gray-400" />
             </button>
           </div>
 
-          {/* Add Review Button */}
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full border border-gray-700 text-gray-300 hover:border-white hover:text-white text-sm transition-all"
+            className="mt-2 flex items-center gap-2 rounded-full border border-gray-700 px-5 py-2.5 text-sm text-gray-300 transition-all hover:border-white hover:text-white"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="h-4 w-4" />
             Add a Review
           </button>
 
-          {/* Success message */}
           <AnimatePresence>
             {submitted && (
               <motion.p
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="text-green-400 text-sm"
+                className="text-sm text-green-400"
               >
-                ✓ Review added successfully!
+                Review added successfully!
               </motion.p>
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      {/* ── Add Review Modal ── */}
       <AnimatePresence>
         {showForm && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleClose}
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
             />
 
-            {/* Modal */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -318,48 +363,45 @@ const Testimonial = () => {
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className="fixed inset-0 z-50 flex items-center justify-center px-4"
             >
-              <div className="bg-[#111] border border-[#2a2a2a] rounded-2xl w-full max-w-lg p-6 shadow-2xl">
-
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-white font-semibold text-lg">
+              <div className="w-full max-w-lg rounded-2xl border border-[#2a2a2a] bg-[#111] p-6 shadow-2xl">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-white">
                     Leave a Review
                   </h3>
                   <button
                     onClick={handleClose}
-                    className="text-gray-500 hover:text-white transition"
+                    className="text-gray-500 transition hover:text-white"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
 
-                {/* Photo Upload */}
-                <div className="flex items-center gap-4 mb-5">
+                <div className="mb-5 flex items-center gap-4">
                   <div
                     onClick={() => fileRef.current?.click()}
-                    className="w-16 h-16 rounded-full border-2 border-dashed border-gray-600 hover:border-gray-400 flex items-center justify-center overflow-hidden cursor-pointer transition"
+                    className="flex h-16 w-16 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-gray-600 transition hover:border-gray-400"
                   >
                     {photoPreview ? (
                       <img
                         src={photoPreview}
                         alt="preview"
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover"
                       />
                     ) : (
-                      <User className="w-7 h-7 text-gray-500" />
+                      <User className="h-7 w-7 text-gray-500" />
                     )}
                   </div>
                   <div>
                     <button
                       type="button"
                       onClick={() => fileRef.current?.click()}
-                      className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition"
+                      className="flex items-center gap-1.5 text-sm text-gray-400 transition hover:text-white"
                     >
-                      <Upload className="w-4 h-4" />
+                      <Upload className="h-4 w-4" />
                       {photoPreview ? "Change photo" : "Upload photo"}
                     </button>
-                    <p className="text-xs text-gray-600 mt-0.5">
-                      Optional · JPG, PNG, WEBP
+                    <p className="mt-0.5 text-xs text-gray-600">
+                      Optional - JPG, PNG, WEBP
                     </p>
                   </div>
                   <input
@@ -371,84 +413,85 @@ const Testimonial = () => {
                   />
                 </div>
 
-                {/* Name */}
                 <div className="mb-4">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">
+                  <label className="mb-1.5 block text-xs uppercase tracking-wider text-gray-500">
                     Your Name *
                   </label>
                   <input
                     type="text"
                     value={form.author}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, author: e.target.value }))
+                      setForm((prev) => ({ ...prev, author: e.target.value }))
                     }
                     placeholder="e.g. Alex Johnson"
-                    className={`w-full bg-[#1a1a1a] border ${
+                    className={`w-full rounded-lg border bg-[#1a1a1a] px-4 py-2.5 text-sm text-white placeholder-gray-600 transition focus:border-gray-500 focus:outline-none ${
                       errors.author ? "border-red-500" : "border-[#2a2a2a]"
-                    } rounded-lg px-4 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-500 transition`}
+                    }`}
                   />
                   {errors.author && (
-                    <p className="text-red-400 text-xs mt-1">{errors.author}</p>
+                    <p className="mt-1 text-xs text-red-400">{errors.author}</p>
                   )}
                 </div>
 
-                {/* Role */}
                 <div className="mb-4">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">
+                  <label className="mb-1.5 block text-xs uppercase tracking-wider text-gray-500">
                     Role / Company *
                   </label>
                   <input
                     type="text"
                     value={form.role}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, role: e.target.value }))
+                      setForm((prev) => ({ ...prev, role: e.target.value }))
                     }
                     placeholder="e.g. CEO at Acme Inc."
-                    className={`w-full bg-[#1a1a1a] border ${
+                    className={`w-full rounded-lg border bg-[#1a1a1a] px-4 py-2.5 text-sm text-white placeholder-gray-600 transition focus:border-gray-500 focus:outline-none ${
                       errors.role ? "border-red-500" : "border-[#2a2a2a]"
-                    } rounded-lg px-4 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-500 transition`}
+                    }`}
                   />
                   {errors.role && (
-                    <p className="text-red-400 text-xs mt-1">{errors.role}</p>
+                    <p className="mt-1 text-xs text-red-400">{errors.role}</p>
                   )}
                 </div>
 
-                {/* Rating */}
                 <div className="mb-4">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">
+                  <label className="mb-1.5 block text-xs uppercase tracking-wider text-gray-500">
                     Rating
                   </label>
                   <StarRating value={rating} onChange={setRating} />
                 </div>
 
-                {/* Review Text */}
                 <div className="mb-5">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">
+                  <label className="mb-1.5 block text-xs uppercase tracking-wider text-gray-500">
                     Your Review *
                   </label>
                   <textarea
                     value={form.text}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, text: e.target.value }))
+                      setForm((prev) => ({ ...prev, text: e.target.value }))
                     }
                     rows={4}
                     placeholder="Share your experience working with Jaseem..."
-                    className={`w-full bg-[#1a1a1a] border ${
+                    className={`w-full resize-none rounded-lg border bg-[#1a1a1a] px-4 py-2.5 text-sm text-white placeholder-gray-600 transition focus:border-gray-500 focus:outline-none ${
                       errors.text ? "border-red-500" : "border-[#2a2a2a]"
-                    } rounded-lg px-4 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-500 transition resize-none`}
+                    }`}
                   />
                   {errors.text && (
-                    <p className="text-red-400 text-xs mt-1">{errors.text}</p>
+                    <p className="mt-1 text-xs text-red-400">{errors.text}</p>
                   )}
                 </div>
 
-                {/* Submit */}
                 <button
                   onClick={handleSubmit}
-                  className="w-full bg-white text-black font-semibold text-sm py-3 rounded-xl hover:bg-gray-100 transition"
+                  disabled={saving}
+                  className="w-full rounded-xl bg-white py-3 text-sm font-semibold text-black transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  Submit Review
+                  {saving ? "Saving..." : "Submit Review"}
                 </button>
+                {errors.submit && (
+                  <p className="mt-3 text-center text-xs text-red-400">
+                    {errors.submit}
+                  </p>
+                )}
               </div>
             </motion.div>
           </>
