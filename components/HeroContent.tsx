@@ -92,7 +92,7 @@ export default function HeroContent() {
 
           {/* CENTER DESCRIPTION - Below Image */}
           <div className="hero-anim text-[10px] uppercase tracking-[0.08em] leading-[1.6] mt-12 text-center max-w-md">
-            I'M AN EXPERIENCED FULL STACK DEVELOPER,<br />
+            I&apos;M AN EXPERIENCED FULL STACK DEVELOPER,<br />
             BUILDING ROBUST AND SCALABLE APPLICATIONS FOR<br />
             BUSINESSES OF ALL SIZES
           </div>

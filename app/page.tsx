@@ -16,23 +16,22 @@ type StatCardProps = {
   delay?: number;
 };
 
+const LabelContainer = ({ label }: { label: string }) => (
+  <div className="bg-[#222222] py-3 px-4 rounded-lg w-full">
+    <p className="text-gray-400 text-xs lg:text-sm uppercase tracking-wider font-medium">
+      {label}
+    </p>
+  </div>
+);
+
+const ValueText = ({ value }: { value: string }) => (
+  <h3 className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
+    {value}
+  </h3>
+);
+
 const StatCard = ({ label, value, valueOnTop = false, delay = 0 }: StatCardProps) => {
   const cardBg = "bg-[#141414]";
-  const labelBg = "bg-[#222222]";
-
-  const LabelContainer = () => (
-    <div className={`${labelBg} py-3 px-4 rounded-lg w-full`}>
-      <p className="text-gray-400 text-xs lg:text-sm uppercase tracking-wider font-medium">
-        {label}
-      </p>
-    </div>
-  );
-
-  const ValueText = () => (
-    <h3 className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
-      {value}
-    </h3>
-  );
 
   return (
     <motion.div
@@ -45,13 +44,13 @@ const StatCard = ({ label, value, valueOnTop = false, delay = 0 }: StatCardProps
     >
       {valueOnTop ? (
         <>
-          <ValueText />
-          <LabelContainer />
+          <ValueText value={value} />
+          <LabelContainer label={label} />
         </>
       ) : (
         <>
-          <LabelContainer />
-          <ValueText />
+          <LabelContainer label={label} />
+          <ValueText value={value} />
         </>
       )}
     </motion.div>
