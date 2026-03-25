@@ -36,7 +36,7 @@ export default function HeroContent() {
           <span className="cursor-pointer hover:text-gray-500">[ CONNECT ]</span>
         </nav>
 
-        <a href="#contact" className="group flex items-center gap-1">
+        <a href="" className="group flex items-center gap-1">
           <span className="border-b border-black pb-0.5 group-hover:opacity-70 transition-opacity">
             CONTACT ME
           </span>
