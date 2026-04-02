@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { FiArrowUpRight } from "react-icons/fi";
 import FeaturedWork from "@/components/FeaturedWork";
+import ResumeDownload from "@/components/ResumeDownload";
 import Services from "@/components/Services";
 import Contact from "@/components/contact";
 import { motion, AnimatePresence } from "framer-motion";
@@ -78,6 +79,7 @@ export default function Home() {
     { label: "ABOUT", id: "about" },
     { label: "WORK", id: "work" },
     { label: "SERVICES", id: "services" },
+    { label: "RESUME", id: "resume" },
     { label: "CONTACT", id: "contact" },
   ];
 
@@ -318,6 +320,10 @@ export default function Home() {
 
       <div id="services">
         <Services />
+      </div>
+
+      <div id="resume">
+        <ResumeDownload />
       </div>
 
       <div id="contact">
