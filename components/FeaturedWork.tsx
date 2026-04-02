@@ -22,9 +22,9 @@ const projects = [
     github: "https://github.com/mhdjaseemtk/psydraft"
   },
   {
-    title: "Apple Clone",
+    title: "Apple E-commerce",
     image: "/apple.png",
-    description: "Apple products E-commerce clone",
+    description: "Apple products E-commerce platform",
     tech: "React, Node.js, MongoDB",
     live: "https://apple-clone-mern.vercel.app",
     github: "https://github.com/mhdjaseemtk/apple-clone-mern"
