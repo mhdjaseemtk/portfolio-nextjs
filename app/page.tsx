@@ -8,7 +8,7 @@ import ResumeDownload from "@/components/ResumeDownload";
 import Services from "@/components/Services";
 import Contact from "@/components/contact";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 type StatCardProps = {
   label: string;
@@ -59,13 +59,8 @@ const StatCard = ({ label, value, valueOnTop = false, delay = 0 }: StatCardProps
 };
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const handleLoadingComplete = useCallback(() => {
-    setLoading(false);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -90,15 +85,6 @@ export default function Home() {
 
   return (
     <>
-      {/* LOADING SCREEN */}
-
-
-      {/* MAIN SITE CONTENT */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loading ? 0 : 1 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-      >
         <main
           id="home"
           className="jaseem overflow-x-hidden bg-black relative selection:bg-amber-500 selection:text-white font-inter w-full max-w-[100vw]"
@@ -342,7 +328,6 @@ export default function Home() {
         <div id="contact">
           <Contact />
         </div>
-      </motion.div>
     </>
   );
 }
