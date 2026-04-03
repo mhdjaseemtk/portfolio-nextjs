@@ -14,15 +14,15 @@ const projects = [
     github: "https://github.com/mhdjaseemtk/healix"
   },
   {
-    title: "Psydraft",
+    title: "DGdoctor",
     image: "images/psydraft.png",
     description: "Psychology doctor consultation platform",
     tech: "Next.js, Tailwind, Node.js",
     live: "https://psydraft-frontend.vercel.app",
-    github: "https://github.com/mhdjaseemtk/psydraft"
+    github: "https:dgdoctor.com"
   },
   {
-    title: "Apple E-commerce",
+    title: "Apple products E-commerce",
     image: "/apple.png",
     description: "Apple products E-commerce platform",
     tech: "React, Node.js, MongoDB",
@@ -30,12 +30,12 @@ const projects = [
     github: "https://github.com/mhdjaseemtk/apple-clone-mern"
   },
   {
-    title: "Learning Platform",
-    image: "/Work1.png",
-    description: "Online learning platform",
+    title: "Genpix",
+    image: "/genpix.png",
+    description: "AI image generation platform",
     tech: "Next.js, Node.js, MongoDB",
-    live: "https://learning-platform-beryl-iota.vercel.app",
-    github: "https://github.com/mhdjaseemtk/learning-platform"
+    live: "https://gen-pix-gamma.vercel.app/",
+    github: "https://github.com/mhdjaseemtk/genpix"
   }
 ];
 
@@ -56,6 +56,14 @@ const fullprojects = [
     tech: "HTML, Tailwind CSS",
     live: "https://mhdjaseemtk.github.io/furniture-landing-page-tailwind/",
     github: "https://github.com/mhdjaseemtk/furniture-landing-page-tailwind"
+  },
+  {
+    title: "Learning Platform",
+    image: "/Work1.png",
+    description: "Online learning platform",
+    tech: "Next.js, Node.js, MongoDB",
+    live: "https://learning-platform-beryl-iota.vercel.app",
+    github: "https://github.com/mhdjaseemtk/learning-platform"
   }
 ];
 
