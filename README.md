@@ -1,82 +1,99 @@
-# Portfolio Next.js
+# Jaseem T K — Portfolio
 
-A personal portfolio built with Next.js, React, Tailwind CSS, Framer Motion, and MongoDB for dynamic review storage.
+A modern, animated personal portfolio built with **Next.js 16**, **React 19**, **Tailwind CSS 4**, and **Framer Motion**. Showcases featured projects, services, resume, and contact information with premium design and smooth micro-animations.
 
-## Overview
+🔗 **Live:** [jaseem.work](https://jaseem.work)
 
-This project is a modern portfolio website with animated sections for:
+---
 
-- Hero and introduction
-- Featured work and project showcase
-- Services
-- Contact
-- Reviews / testimonials
+## ✨ Features
 
-The review section now supports MongoDB-backed data instead of hardcoded dummy entries. Visitors can submit a review with:
+- **Cinematic Hero Section** — Full-screen hero with layered gradient overlays, animated heading text, and a rotating SVG spinner
+- **Smooth Scroll Navigation** — Sticky navbar with smooth-scroll to each section; responsive mobile slide-in menu
+- **About & Stats** — Animated stat cards (experience, projects, clients, revenue) with hover micro-interactions
+- **Featured Work** — Project showcase with images, tech tags, and external links
+- **Services** — Highlights of offered services with animated cards
+- **Resume Download** — Dedicated section with skill highlights and a one-click PDF download
+- **Contact Form** — Direct contact section with email integration
+- **Footer** — Newsletter signup, page/project links, and social icons (GitHub, LinkedIn, Instagram, Dribbble, X)
+- **SEO** — JSON-LD structured data, meta tags, sitemap, and semantic HTML
+- **MongoDB Reviews** — API-backed testimonial system with star ratings and optional image upload
 
-- Name
-- Role or company
-- Review text
-- Star rating
-- Optional profile image
+---
 
-The uploaded image is stored in MongoDB as part of the review document.
+## 🛠 Tech Stack
 
-## Tech Stack
+| Layer       | Technology                          |
+|-------------|-------------------------------------|
+| Framework   | Next.js 16 (App Router)             |
+| UI          | React 19, TypeScript                |
+| Styling     | Tailwind CSS 4, PostCSS             |
+| Animations  | Framer Motion, GSAP                 |
+| Icons       | Lucide React, React Icons           |
+| Database    | MongoDB (Node.js Driver)            |
+| Fonts       | Inter, Oswald (Google Fonts)        |
+| Deployment  | Vercel                              |
 
-- Next.js 16
-- React 19
-- TypeScript
-- Tailwind CSS 4
-- Framer Motion
-- Lucide React
-- MongoDB Node.js Driver
+---
 
-## Features
-
-- Responsive portfolio layout
-- Animated UI interactions with Framer Motion
-- Featured projects section
-- Review carousel with add-review modal
-- MongoDB API route for fetching and creating reviews
-- Optional image upload preview for testimonials
-
-## Project Structure
+## 📁 Project Structure
 
 ```text
 app/
   api/
     reviews/
-      route.ts        # Reviews API: GET and POST
-  layout.tsx
-  page.tsx
+      route.ts            # Reviews API — GET & POST
+  globals.css             # Global styles, fonts, animations
+  layout.tsx              # Root layout with SEO metadata & Footer
+  page.tsx                # Main single-page portfolio
 components/
-  FeaturedWork.tsx
-  Services.tsx
-  Testimonial.tsx     # Review UI and form
+  FeaturedWork.tsx         # Project showcase section
+  Footer.tsx              # Site footer with socials & newsletter
+  HeroContent.tsx         # Hero section content
+  IntroAnimation.tsx      # GSAP-powered intro animation
+  ResumeDownload.tsx      # Resume section with PDF download
+  Services.tsx            # Services showcase
+  Testimonial.tsx         # Reviews carousel & submission modal
+  about.tsx               # About content
+  contact.tsx             # Contact form
 lib/
-  mongodb.ts          # MongoDB connection helper
+  mongodb.ts              # MongoDB connection helper
 public/
-  ...static assets
+  resume.pdf              # Downloadable resume
+  sitemap.xml             # SEO sitemap
+  ...                     # Project images & static assets
 ```
 
-## Getting Started
+---
 
-### 1. Install dependencies
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** ≥ 18
+- **npm** (or pnpm)
+- A **MongoDB** connection string (Atlas or local)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/mhdjaseemtk/portfolio-nextjs.git
+cd portfolio-nextjs
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Configure environment variables
-
-Create a local environment file:
+### 3. Configure environment variables
 
 ```bash
 cp .env.example .env.local
 ```
 
-If you are on Windows PowerShell and do not want to use `cp`, create `.env.local` manually and copy the values from `.env.example`.
+> On Windows PowerShell, create `.env.local` manually and copy values from `.env.example`.
 
 Required variables:
 
@@ -85,7 +102,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=tru
 MONGODB_DB=portfolio
 ```
 
-### 3. Run the development server
+### 4. Start the dev server
 
 ```bash
 npm run dev
@@ -93,60 +110,28 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Available Scripts
+---
 
-### `npm run dev`
+## 📜 Available Scripts
 
-Starts the local development server.
+| Command          | Description                    |
+|------------------|--------------------------------|
+| `npm run dev`    | Start development server       |
+| `npm run build`  | Create production build         |
+| `npm run start`  | Run production server           |
+| `npm run lint`   | Run ESLint                      |
 
-### `npm run build`
+---
 
-Creates a production build.
+## 🗄 MongoDB Reviews
 
-### `npm run start`
+### How It Works
 
-Runs the production server after building.
+1. **Frontend** (`components/Testimonial.tsx`) — Loads reviews from `/api/reviews`, displays a carousel, and opens a modal for new submissions with image preview.
+2. **API** (`app/api/reviews/route.ts`) — `GET` returns reviews sorted newest-first; `POST` validates and inserts a new review.
+3. **Connection** (`lib/mongodb.ts`) — Reuses a cached MongoDB client; reads `MONGODB_URI` from env.
 
-### `npm run lint`
-
-Runs ESLint across the project.
-
-Note: there are currently existing lint issues in some older files outside the MongoDB review work. Those should be cleaned up separately if you want a fully green lint run.
-
-## MongoDB Review Flow
-
-The review feature is implemented in two parts:
-
-### Frontend
-
-[components/Testimonial.tsx](/c:/Users/muhdj/OneDrive/Documents/portfolio-nextjs/components/Testimonial.tsx)
-
-This component:
-
-- Loads reviews from `/api/reviews`
-- Displays them in the testimonial carousel
-- Opens a modal to submit a new review
-- Converts the selected image into a preview/data URL before submit
-
-### Backend
-
-[app/api/reviews/route.ts](/c:/Users/muhdj/OneDrive/Documents/portfolio-nextjs/app/api/reviews/route.ts)
-
-This route:
-
-- `GET` returns reviews from MongoDB sorted by newest first
-- `POST` validates and inserts a new review document
-
-[lib/mongodb.ts](/c:/Users/muhdj/OneDrive/Documents/portfolio-nextjs/lib/mongodb.ts)
-
-This helper:
-
-- Reuses the MongoDB client connection
-- Reads `MONGODB_URI` from environment variables
-
-## Review Document Shape
-
-Each review stored in MongoDB contains fields like:
+### Review Document Shape
 
 ```ts
 {
@@ -159,29 +144,39 @@ Each review stored in MongoDB contains fields like:
 }
 ```
 
-## Deployment Notes
+---
 
-When deploying to Vercel or another hosting provider, make sure these environment variables are set in the deployment dashboard:
+## 🌐 Deployment
+
+Deploy to **Vercel** (recommended) or any Node.js host.
+
+Make sure these environment variables are set in the deployment dashboard:
 
 - `MONGODB_URI`
 - `MONGODB_DB`
 
-Without them, the reviews API will not connect to MongoDB.
+---
 
-## Recommended Next Improvements
+## 🔗 Links
 
-- Move review image storage from base64-in-document to cloud storage or GridFS for larger-scale usage
-- Fix the existing lint errors in older components
-- Add review moderation or spam protection
-- Add loading and error states for project-wide API interactions
+- **Website:** [jaseem.work](https://jaseem.work)
+- **GitHub:** [mhdjaseemtk](https://github.com/mhdjaseemtk)
+- **LinkedIn:** [jaseemtk](https://www.linkedin.com/in/jaseemtk/)
+- **Instagram:** [mhdjaseemtk](https://www.instagram.com/mhdjaseemtk/)
+- **Email:** mhdjaseemtk@gmail.com
 
-## Repository Notes
+---
 
-- The `dev` branch is being used for ongoing changes.
-- There is an untracked `app/app/` folder locally that was not included in the review changes or related pushes.
-
-## Learn More
+## 📚 Resources
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [MongoDB Node.js Driver Docs](https://www.mongodb.com/docs/drivers/node/)
-- [Framer Motion Docs](https://www.framer.com/motion/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [GSAP](https://gsap.com/docs/)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+
+---
+
+## 📝 License
+
+© 2026 Jaseem T K. All rights reserved.
