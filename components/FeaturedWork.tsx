@@ -46,8 +46,8 @@ const fullprojects = [
     image: "images/adam.png",
     description: "Admin dashboard UI with React",
     tech: "React, Tailwind CSS",
-    live: "https://admin-innovation-website-react.vercel.app",
-    github: "https://github.com/mhdjaseemtk/admin-innovation-website-react"
+    live: "https://optimize-website-react.vercel.app",
+    github: "https://github.com/mhdjaseemtk/Optimize-website-react"
   },
   {
     title: "Branch Furniture",
