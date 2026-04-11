@@ -42,7 +42,7 @@ const projects = [
 const fullprojects = [
   ...projects,
   {
-    title: "Admin Innovation",
+    title: "Optimize",
     image: "images/adam.png",
     description: "Admin dashboard UI with React",
     tech: "React, Tailwind CSS",
