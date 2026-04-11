@@ -6,7 +6,6 @@ import { FiArrowUpRight } from "react-icons/fi";
 import FeaturedWork from "@/components/FeaturedWork";
 import ResumeDownload from "@/components/ResumeDownload";
 import Services from "@/components/Services";
-import Skills from "@/components/Skills";
 import Contact from "@/components/contact";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -80,7 +79,6 @@ export default function Home() {
     { label: "ABOUT", id: "about" },
     { label: "WORK", id: "work" },
     { label: "SERVICES", id: "services" },
-    { label: "SKILLS", id: "skills" },
     { label: "RESUME", id: "resume" },
     { label: "CONTACT", id: "contact" },
   ];
@@ -321,10 +319,6 @@ export default function Home() {
 
         <div id="services">
           <Services />
-        </div>
-
-        <div id="skills">
-          <Skills />
         </div>
 
         <div id="resume">
