@@ -9,7 +9,7 @@ const projects = [
     title: "Healix",
     image: "/Work2.png",
     description: "Healthcare products SaaS platform",
-    tech: "Next.js, Node.js, MongoDB, DynamoDB, Redis",
+    tech: "Next.js, Node.js, MongoDB, DynamoDB, Redis,RabbitMQ,ElasticSearch",
     live: "http://43.205.231.18",
     github: "https://github.com/mhdjaseemtk/healix"
   },
