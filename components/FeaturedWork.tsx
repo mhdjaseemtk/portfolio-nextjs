@@ -42,12 +42,12 @@ const projects = [
 const fullprojects = [
   ...projects,
   {
-    title: "Admin Innovation",
+    title: "Optimize",
     image: "images/adam.png",
-    description: "Admin dashboard UI with React",
+    description: "Company website UI built using React with responsive and clean component design.",
     tech: "React, Tailwind CSS",
-    live: "https://admin-innovation-website-react.vercel.app",
-    github: "https://github.com/mhdjaseemtk/admin-innovation-website-react"
+    live: "https://optimize-website-react.vercel.app",
+    github: "https://github.com/mhdjaseemtk/Optimize-website-react"
   },
   {
     title: "Branch Furniture",
