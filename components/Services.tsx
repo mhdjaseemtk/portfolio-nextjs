@@ -94,7 +94,7 @@ const ServicesSection = () => {
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
           className="lg:col-span-7 flex flex-col justify-center"
         >
-          <div className="flex flex-col">
+          <div className="grid grid-cols-2 sm:grid-cols-1 sm:flex sm:flex-col gap-3 sm:gap-0 overflow-hidden">
             {services.map((service, index) => {
               const isActive = activeIndex === index;
               return (
@@ -103,16 +103,16 @@ const ServicesSection = () => {
                   onMouseEnter={() => setActiveIndex(index)}
                   layout
                   className={`
-                    relative group border-b border-gray-800 transition-all duration-300 ease-in-out cursor-pointer
-                    ${isActive ? 'bg-orange-500 border-transparent py-8 px-6 rounded-lg' : 'bg-transparent py-8 px-0'}
+                    relative group border-b border-gray-800 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden min-w-0
+                    ${isActive ? 'bg-orange-500 border-transparent py-4 px-3 sm:py-8 sm:px-6 rounded-lg' : 'bg-transparent py-4 px-0 sm:py-8'}
                   `}
                 >
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div className="max-w-md">
-                      <h3 className="text-xl md:text-2xl font-bold uppercase mb-2 text-white">
+                    <div className="max-w-md min-w-0">
+                      <h3 className="text-sm sm:text-xl md:text-2xl font-bold uppercase mb-1 sm:mb-2 text-white break-words">
                         {service.title}
                       </h3>
-                      <p className={`text-sm leading-relaxed ${isActive ? 'text-white/90' : 'text-gray-500'}`}>
+                      <p className={`text-xs sm:text-sm leading-relaxed ${isActive ? 'text-white/90' : 'text-gray-500'}`}>
                         {service.description}
                       </p>
                     </div>
@@ -143,7 +143,7 @@ const ServicesSection = () => {
         </motion.div>
       </div>
 
-      <div className="mt-20">
+      <div className="hidden md:block mt-20">
         <Testimonial />
       </div>
     </div>

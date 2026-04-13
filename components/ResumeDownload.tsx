@@ -140,14 +140,18 @@ const ResumeDownload = () => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-              className="lg:col-span-5"
+              className="hidden md:block lg:col-span-5"
             >
               <div className="relative group">
                 {/* Glow behind card */}
                 <div className="absolute -inset-1 bg-gradient-to-br from-amber-500/20 via-amber-500/5 to-transparent rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
+
+
+
+
                 {/* Card */}
-                <div className="relative bg-[#141414] border border-neutral-800 rounded-2xl p-8 lg:p-10 overflow-hidden group-hover:border-neutral-700 transition-colors duration-300">
+                <div className="relative bg-[#141414]  border border-neutral-800 rounded-2xl p-8 lg:p-10 overflow-hidden group-hover:border-neutral-700 transition-colors duration-300">
                   {/* Decorative corner accent */}
                   <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-500/10 to-transparent rounded-bl-3xl" />
 
@@ -209,6 +213,19 @@ const ResumeDownload = () => {
                     />
                   </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
               </div>
             </motion.div>
           </div>
