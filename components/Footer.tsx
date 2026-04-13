@@ -89,7 +89,7 @@ const Footer = () => {
         </motion.div>
 
         {/* Nav Links */}
-        <div className="md:col-span-2">
+        <div className="hidden md:block md:col-span-2">
           <h3 className="text-lg font-medium mb-6">Pages</h3>
           <ul className="space-y-4 text-gray-400 text-sm">
             {[
@@ -111,7 +111,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="hidden md:block md:col-span-2">
           <h3 className="text-lg font-medium mb-6">Projects</h3>
           <ul className="space-y-4 text-gray-400 text-sm">
             {["Healix", "Psydraft", "Apple Clone", "Learning Platform", "Admin Innovation"].map((name) => (
@@ -147,7 +147,7 @@ const Footer = () => {
 
         {/* Socials */}
         <div className="md:col-span-1">
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-row flex-wrap gap-4">
             {socials.map(({ icon, label, href }) => (
               <motion.a
                 key={label}

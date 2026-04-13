@@ -188,7 +188,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               {/* LEFT TEXT */}
-              <div className="md:col-span-8 mt-32 md:mt-20 flex m-5 flex-col ml-24 justify-center items-start">
+              <div className="md:col-span-8 mt-32 md:mt-20 flex m-5 flex-col ml-4 md:ml-24 justify-center items-start">
                 <h1 className="font-oswald gap-3 font-bold leading-[0.8] tracking-tighter uppercase text-white flex flex-col items-start w-full break-words">
                   {[
                     { word: "Build", color: "" },

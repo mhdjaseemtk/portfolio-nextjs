@@ -85,7 +85,7 @@ const Card = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
-      className={`relative group overflow-hidden rounded-3xl bg-zinc-950 flex items-center justify-center h-[260px] sm:h-[320px] md:h-[380px] lg:h-[420px] ${colSpan} cursor-pointer`}
+      className={`relative group overflow-hidden rounded-3xl bg-zinc-950 flex items-center justify-center h-auto sm:h-[320px] md:h-[380px] lg:h-[420px] ${colSpan} cursor-pointer`}
     >
       <img
         src={imgSrc}
@@ -120,7 +120,7 @@ const FeaturedWork = () => {
           <h2 className="text-gray-500 text-sm tracking-wider uppercase">(Featured Work)</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 mb-12">
           {projects.map((project, i) => (
             <Card
               key={i}
