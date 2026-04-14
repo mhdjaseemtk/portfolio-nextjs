@@ -133,6 +133,11 @@ const Footer = () => {
               </a>
             </li>
             <li>
+              <a href="tel:+918075004663" className="hover:text-white transition-colors">
+                +91 8075004663
+              </a>
+            </li>
+            <li>
               <a href="https://github.com/mhdjaseemtk" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                 GitHub
               </a>
