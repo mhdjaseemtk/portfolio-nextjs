@@ -114,7 +114,7 @@ const Footer = () => {
         <div className="hidden md:block md:col-span-2">
           <h3 className="text-lg font-medium mb-6">Projects</h3>
           <ul className="space-y-4 text-gray-400 text-sm">
-            {["Healix", "Psydraft", "Apple Clone", "Learning Platform", "Admin Innovation"].map((name) => (
+            {["Healix", "Psydraft", "Apple Clone", "Learning Platform", "Optimize"].map((name) => (
               <li key={name}>
                 <button onClick={() => scrollTo("work")} className="hover:text-white transition-colors text-left">
                   {name}
