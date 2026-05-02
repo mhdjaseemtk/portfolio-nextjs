@@ -46,7 +46,7 @@ const fullprojects = [
     image: "images/adam.png",
     description: "Company website UI built using React with responsive and clean component design.",
     tech: "React, Tailwind CSS",
-    live: "https://optimize-website-react.vercel.app",
+    live: "https://admin-innovation-website-react.vercel.app/",
     github: "https://github.com/mhdjaseemtk/Optimize-website-react"
   },
   {
